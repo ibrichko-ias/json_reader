@@ -19,11 +19,10 @@ object JsonReader extends App{
 
   val sc = SparkContext.getOrCreate()
 
-  val jsonfile: String = "/home/brig/misc/winemag-data-130k-v2.json" //path_to_json_file
 
  /* Implemented case class for json4s dependencies and implict method for serialization
  Then using sc for extracting json file)
-  */
+ */
   case class json_obj(
                        id: Option[Int],
                        country: Option[String],
@@ -36,7 +35,10 @@ object JsonReader extends App{
   implicit val formats = Serialization.formats(ShortTypeHints(List(classOf[json_obj])))
 
 
-  val json_rdd: RDD[String] =  sc.textFile(jsonfile)
+
+  val json_file = args(0)
+
+  val json_rdd: RDD[String] =  sc.textFile(json_file)
 
 
   json_rdd
@@ -45,6 +47,10 @@ object JsonReader extends App{
       println(line.toString)
     }
 
+
   sc.stop()
 
 }
+
+
+
